@@ -104,7 +104,7 @@ def manage_game_in_session(intent, session):
         if 'value' in intent['slots']['gameSlot']:
             game_action = intent['slots']['gameSlot']['value']
         else:
-            game_action = ''
+            game_action = 'EMPTY'
         if game_action in valid_game_actions:
             session_attributes = dict()
             response = call_server('game', game_action)
@@ -113,6 +113,7 @@ def manage_game_in_session(intent, session):
             else:
                 speech_output = "Ooopsie. Der server sagt {}".format(response.status)
         else:
+            print('unknown command: {}'.format(game_action))
             speech_output = "Nein, nein."
     else:
         speech_output = "Ich weiß nicht was du machen möchtest." \
@@ -132,7 +133,7 @@ def manage_direction_in_session(intent, session):
         if 'value' in intent['slots']['directionSlot']:
             direction_movement = intent['slots']['directionSlot']['value']
         else:
-            direction_movement = ''
+            direction_movement = 'EMPTY'
         if direction_movement in valid_directions:
             session_attributes = dict()
             response = call_server('direction', direction_movement)
@@ -142,7 +143,8 @@ def manage_direction_in_session(intent, session):
             else:
                 speech_output = "Ooopsie. Der server sagt {}".format(response.status)
         else:
-            speech_output = 'Melone!'
+            print('unknown command: {}'.format(direction_movement))
+            speech_output = 'Nein, nein!'
     else:
         speech_output = "Ich weiß nicht wo du hin willst. " \
                         "versuche es nochmal."
