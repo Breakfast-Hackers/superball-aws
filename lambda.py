@@ -11,7 +11,7 @@ http://amzn.to/1LGWsLG
 """
 
 valid_game_actions = ['start', 'stop', 'pause', 'weiter']
-valid_directions = ['left', 'right']
+valid_directions = ['links', 'rechts']
 
 
 # --------------- Helpers that build all of the responses ----------------------
@@ -68,12 +68,12 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Willkommen bei Superball! " \
-                    "beginne ein neues Spiel mit" \
+                    "beginne ein neues Spiel mit " \
                     "Spiel starten"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Ich hab dich nicht verstanden, " \
-                    "aber du beginnst ein neues Spiel mit" \
+                    "aber du beginnst ein neues Spiel mit " \
                     "Spiel starten"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -106,12 +106,11 @@ def manage_game_in_session(intent, session):
         else:
             game_action = 'EMPTY'
         if game_action in valid_game_actions:
-            session_attributes = dict()
             response = call_server('game', game_action)
             if response.status == 200:
                 speech_output = game_action + "!"
             else:
-                speech_output = "Ooopsie. Der server sagt {}".format(response.status)
+                speech_output = "Ooopsy. Der server sagt {}".format(response.status)
         else:
             print('unknown command: {}'.format(game_action))
             speech_output = "Nein, nein."
@@ -141,7 +140,7 @@ def manage_direction_in_session(intent, session):
                 speech_output = "schnell! " + \
                                 direction_movement + "!"
             else:
-                speech_output = "Ooopsie. Der server sagt {}".format(response.status)
+                speech_output = "Ooopsy. Der server sagt {}".format(response.status)
         else:
             print('unknown command: {}'.format(direction_movement))
             speech_output = 'Nein, nein!'
