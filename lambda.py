@@ -129,7 +129,7 @@ def manage_direction_in_session(intent, session):
                     "links oder rechts bewegen."
 
     if 'directionSlot' in intent['slots']:
-        if 'value' in intent['slots']['gameSlot']:
+        if 'value' in intent['slots']['directionSlot']:
             direction_movement = intent['slots']['directionSlot']['value']
         else:
             direction_movement = ''
