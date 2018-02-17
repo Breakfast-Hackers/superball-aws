@@ -10,6 +10,9 @@ For additional samples, visit the Alexa Skills Kit Getting Started guide at
 http://amzn.to/1LGWsLG
 """
 
+valid_game_actions = ['start', 'stop', 'pause', 'weiter']
+valid_directions = ['left', 'right']
+
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -51,6 +54,9 @@ def call_server(action_type, action):
     return response
 
 
+def stop_game():
+    call_server('game', 'stop')
+
 
 # --------------- Functions that control the skill's behavior ------------------
 
@@ -78,6 +84,7 @@ def handle_session_end_request():
     card_title = "Session Ended"
     speech_output = "Danke, dass du Superball gespielt hast. " \
                     "Viel Spaß noch! "
+    stop_game()
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return build_response({}, build_speechlet_response(
@@ -95,12 +102,15 @@ def manage_game_in_session(intent, session):
 
     if 'gameSlot' in intent['slots']:
         game_action = intent['slots']['gameSlot']['value']
-        session_attributes = dict()
-        response = call_server('game', game_action)
-        if response.status == 200:
-            speech_output = game_action + "!"
+        if game_action in valid_game_actions:
+            session_attributes = dict()
+            response = call_server('game', game_action)
+            if response.status == 200:
+                speech_output = game_action + "!"
+            else:
+                speech_output = "Ooopsie. Der server sagt {}".format(response.status)
         else:
-            speech_output = "Ooopsie. Der server sagt {}".format(response.status)
+            speech_output = "Nein, nein."
     else:
         speech_output = "Ich weiß nicht was du machen möchtest." \
                         "Probier es nochmal."
@@ -117,13 +127,16 @@ def manage_direction_in_session(intent, session):
 
     if 'directionSlot' in intent['slots']:
         direction_movement = intent['slots']['directionSlot']['value']
-        session_attributes = dict()
-        response = call_server('direction', direction_movement)
-        if response.status == 200:
-            speech_output = "schnell! " + \
-                            direction_movement + "!"
+        if direction_movement in valid_directions:
+            session_attributes = dict()
+            response = call_server('direction', direction_movement)
+            if response.status == 200:
+                speech_output = "schnell! " + \
+                                direction_movement + "!"
+            else:
+                speech_output = "Ooopsie. Der server sagt {}".format(response.status)
         else:
-            speech_output = "Ooopsie. Der server sagt {}".format(response.status)
+            speech_output = 'Melone!'
     else:
         speech_output = "Ich weiß nicht wo du hin willst. " \
                         "versuche es nochmal."
@@ -178,6 +191,7 @@ def on_session_ended(session_ended_request, session):
 
     Is not called when the skill returns should_end_session=true
     """
+    stop_game()
     print("on_session_ended requestId=" + session_ended_request['requestId'] +
           ", sessionId=" + session['sessionId'])
     # add cleanup logic here
