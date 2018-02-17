@@ -101,7 +101,10 @@ def manage_game_in_session(intent, session):
                     "links oder rechts sagst."
 
     if 'gameSlot' in intent['slots']:
-        game_action = intent['slots']['gameSlot']['value']
+        if 'value' in intent['slots']['gameSlot']:
+            game_action = intent['slots']['gameSlot']['value']
+        else:
+            game_action = ''
         if game_action in valid_game_actions:
             session_attributes = dict()
             response = call_server('game', game_action)
@@ -126,7 +129,10 @@ def manage_direction_in_session(intent, session):
                     "links oder rechts bewegen."
 
     if 'directionSlot' in intent['slots']:
-        direction_movement = intent['slots']['directionSlot']['value']
+        if 'value' in intent['slots']['gameSlot']:
+            direction_movement = intent['slots']['directionSlot']['value']
+        else:
+            direction_movement = ''
         if direction_movement in valid_directions:
             session_attributes = dict()
             response = call_server('direction', direction_movement)
