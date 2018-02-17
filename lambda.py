@@ -61,14 +61,14 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the super ball game. " \
-                    "Start a new game by saying" \
-                    "game start"
+    speech_output = "Willkommen bei Superball! " \
+                    "beginne ein neues Spiel mit" \
+                    "Spiel starten"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "I didn't get that, " \
-                    "but you can start a new game with saying" \
-                    "game start"
+    reprompt_text = "Ich hab dich nicht verstanden, " \
+                    "aber du beginnst ein neues Spiel mit" \
+                    "Spiel starten"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -76,8 +76,8 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for playing super ball with us. " \
-                    "Have a nice day! "
+    speech_output = "Danke, dass du Superball gespielt hast. " \
+                    "Viel Spaß noch! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return build_response({}, build_speechlet_response(
@@ -90,20 +90,20 @@ def manage_game_in_session(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
-    reprompt_text = "You can move the ball by saying, " \
-                    "move left."
+    reprompt_text = "Du kannst den Ball bewegen indem du, " \
+                    "links oder rechts sagst."
 
     if 'gameSlot' in intent['slots']:
         game_action = intent['slots']['gameSlot']['value']
         session_attributes = dict()
         response = call_server('game', game_action)
         if response.status == 200:
-            speech_output = "I will " + game_action + "!"
+            speech_output = game_action + "!"
         else:
-            speech_output = "An error with the server happened. Ooopsie. It told me {}".format(response.status)
+            speech_output = "Ooopsie. Der server sagt {}".format(response.status)
     else:
-        speech_output = "I'm not sure what you want to do with the game. " \
-                        "Please try again."
+        speech_output = "Ich weiß nicht was du machen möchtest." \
+                        "Probier es nochmal."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -112,21 +112,21 @@ def manage_direction_in_session(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
-    reprompt_text = "You can move the ball by saying, " \
-                    "move left."
+    reprompt_text = "du kannst den Ball mit den Kommandos, " \
+                    "links oder rechts bewegen."
 
     if 'directionSlot' in intent['slots']:
         direction_movement = intent['slots']['directionSlot']['value']
         session_attributes = dict()
         response = call_server('direction', direction_movement)
         if response.status == 200:
-            speech_output = "quick! " + \
+            speech_output = "schnell! " + \
                             direction_movement + "!"
         else:
-            speech_output = "An error with the server happened. Ooopsie. It told me {}".format(response.status)
+            speech_output = "Ooopsie. Der server sagt {}".format(response.status)
     else:
-        speech_output = "I'm not sure which direction you want to go. " \
-                        "Please try again."
+        speech_output = "Ich weiß nicht wo du hin willst. " \
+                        "versuche es nochmal."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
