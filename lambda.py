@@ -97,8 +97,7 @@ def manage_game_in_session(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
-    reprompt_text = "Du kannst den Ball bewegen indem du, " \
-                    "links oder rechts sagst."
+    reprompt_text = "mach was!"
 
     if 'gameSlot' in intent['slots']:
         if 'value' in intent['slots']['gameSlot']:
@@ -113,7 +112,7 @@ def manage_game_in_session(intent, session):
                 speech_output = "Ooopsy. Der server sagt {}".format(response.status)
         else:
             print('unknown command: {}'.format(game_action))
-            speech_output = "Nein, nein."
+            speech_output = "was denn, alter?"
     else:
         speech_output = "Ich weiß nicht was du machen möchtest." \
                         "Probier es nochmal."
@@ -125,8 +124,7 @@ def manage_direction_in_session(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
-    reprompt_text = "du kannst den Ball mit den Kommandos, " \
-                    "links oder rechts bewegen."
+    reprompt_text = "links oder rechts?"
 
     if 'directionSlot' in intent['slots']:
         if 'value' in intent['slots']['directionSlot']:
@@ -137,13 +135,12 @@ def manage_direction_in_session(intent, session):
             session_attributes = dict()
             response = call_server('direction', direction_movement)
             if response.status == 200:
-                speech_output = "schnell! " + \
-                                direction_movement + "!"
+                speech_output = direction_movement + "!"
             else:
                 speech_output = "Ooopsy. Der server sagt {}".format(response.status)
         else:
             print('unknown command: {}'.format(direction_movement))
-            speech_output = 'Nein, nein!'
+            speech_output = 'Nein, man!'
     else:
         speech_output = "Ich weiß nicht wo du hin willst. " \
                         "versuche es nochmal."
