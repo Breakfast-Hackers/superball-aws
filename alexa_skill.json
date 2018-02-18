@@ -1,0 +1,115 @@
+{
+    "languageModel": {
+        "invocationName": "super ball",
+        "intents": [
+            {
+                "name": "AMAZON.CancelIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.HelpIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.StopIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "DirectionIntent",
+                "slots": [
+                    {
+                        "name": "directionSlot",
+                        "type": "DirectionSlotType"
+                    }
+                ],
+                "samples": [
+                    "nach {directionSlot}",
+                    "{directionSlot}",
+                    "beweg dich nach {directionSlot}"
+                ]
+            },
+            {
+                "name": "GameIntent",
+                "slots": [
+                    {
+                        "name": "gameSlot",
+                        "type": "GameSlotType"
+                    }
+                ],
+                "samples": [
+                    "{gameSlot}",
+                    "{gameSlot} Spiel",
+                    "Spiel {gameSlot}",
+                    "{gameSlot} das Spiel"
+                ]
+            }
+        ],
+        "types": [
+            {
+                "name": "GameSlotType",
+                "values": [
+                    {
+                        "id": "resume",
+                        "name": {
+                            "value": "weiter",
+                            "synonyms": [
+                                "weiter machen"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "pause",
+                        "name": {
+                            "value": "pause",
+                            "synonyms": [
+                                "pausiere"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "stop",
+                        "name": {
+                            "value": "stop",
+                            "synonyms": [
+                                "stoppen",
+                                "stoppe"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "start",
+                        "name": {
+                            "value": "start",
+                            "synonyms": [
+                                "starten",
+                                "starte"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "DirectionSlotType",
+                "values": [
+                    {
+                        "id": "right",
+                        "name": {
+                            "value": "rechts",
+                            "synonyms": []
+                        }
+                    },
+                    {
+                        "id": "left",
+                        "name": {
+                            "value": "links",
+                            "synonyms": []
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
